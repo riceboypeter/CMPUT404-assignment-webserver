@@ -62,14 +62,11 @@ class MyWebServer(socketserver.BaseRequestHandler):
         body = ""
         try:
             html = open(path)
-            print("is anything here?")
             if html:
-                print("well?")
                 body += "HTTP/1.1 200 OK\nContent-Type: text/html\n\n"
                 body += html.read()
                 html.close()
         except:
-            print("yo that's a 404")
             body += self.handle_404()
         return body
 
@@ -78,14 +75,11 @@ class MyWebServer(socketserver.BaseRequestHandler):
         body = ""
         try:
             css = open(path)
-            print("is anything here?")
             if css:
-                print("well?")
                 body += "HTTP/1.1 200 OK\nContent-Type: text/css\n\n"
                 body += css.read()
                 css.close()
         except:
-            print("yo that's a 404")
             body += self.handle_404()
         return body
 
@@ -106,20 +100,16 @@ class MyWebServer(socketserver.BaseRequestHandler):
         if os.path.isdir(requested_path) and requested_path[-1] != "/":
             return self.handle_301(split_path)
 
-        # time to check where we're going
-        print(split_path)
-        
         body = ""
 
         # this probably could be a switch statement
         # but that is way above my paygrade
         # requests to ""
         if split_path[-1] == "":
-            print("main level!")
             body += self.handle_html(requested_path + "/index.html")
+        
         # request to index.html
         elif "html" in split_path[-1]:
-            print("index!")
             body += self.handle_html(requested_path)
 
         # time for css
